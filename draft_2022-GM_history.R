@@ -15,6 +15,7 @@ df <- draft_2022 %>%
   mutate(exp_age = m$fitted.values,
          age_oe = age - exp_age)
 
+#create GM dataframe with history
 gm_history <- df %>% 
   group_by(top_executive, team) %>% 
   summarise(avg_age = mean(age),
@@ -22,6 +23,7 @@ gm_history <- df %>%
             avg_age_oe = mean(age_oe),
             picks = n())
 
+#plotting
 p <- ggplot(gm_history,
        aes(x = avg_age_oe, y = reorder(top_executive,avg_age_oe)))+
   geom_col(aes(fill = team), width = 0.66)+
@@ -36,4 +38,5 @@ p <- ggplot(gm_history,
         plot.subtitle = element_text(hjust = 0.5),
         axis.title.y = element_blank())
 
+#saving the plot
 ggsave("test.png", p, width = 12, height = 9, bg = "white", dpi = 200)
